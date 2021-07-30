@@ -11,4 +11,3 @@ calculator features:
 8-floating point numbers are handled  
 9-pi number is included  
 and so many other operations that will be added soon :)  
-![](WindowsFormsApp2/Screenshot 2021-07-30 230252.jpg)
