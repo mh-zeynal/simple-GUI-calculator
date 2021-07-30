@@ -9,5 +9,5 @@ calculator features:
 6-calculating radical of a number  
 7-calculating factorial of a number  
 8-floating point numbers are handled  
-9-pi number is included
+9-pi number is included  
 and so many other operations that will be added soon :)
