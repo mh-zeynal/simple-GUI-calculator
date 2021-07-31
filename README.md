@@ -10,7 +10,7 @@ calculator features:
 7-calculating factorial of a number  
 8-floating point numbers are handled  
 9-pi number is included  
-"update 1" new features:  
+####"update 1" new features:####  
 1-inverse number  
 2-calculates number to power of 2  
 3-calculates subtract of two numbers  
