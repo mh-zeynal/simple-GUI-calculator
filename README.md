@@ -18,3 +18,4 @@ _"update 1" new features:_
 5-e number
 6-color of buttons vhange whenever you hover through them  
 and so many other operations that will be added soon :)  
+![picture alt](/WindowsFormsApp2/preview.jpg)
