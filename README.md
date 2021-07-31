@@ -1,5 +1,5 @@
 # simple-GUI-calculator  
-C# simple window application calculator  
+C# window application calculator  
 calculator features:  
 1-sum operation  
 2-product operation  
