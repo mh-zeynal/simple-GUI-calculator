@@ -16,9 +16,11 @@ namespace WindowsFormsApp2
     private StringBuilder num2;
     private string operation;
     private bool flag;
+    private bool squareKey;
     private double result;
     public Form1()
     {
+      squareKey = false;
       flag = false;
       InitializeComponent();
       StretchImages();
@@ -49,6 +51,11 @@ namespace WindowsFormsApp2
       radical.BackgroundImageLayout = ImageLayout.Stretch;
       factorial.BackgroundImageLayout = ImageLayout.Stretch;
       log.BackgroundImageLayout = ImageLayout.Stretch;
+      minus.BackgroundImageLayout = ImageLayout.Stretch;
+      e.BackgroundImageLayout = ImageLayout.Stretch;
+      ln.BackgroundImageLayout = ImageLayout.Stretch;
+      square.BackgroundImageLayout = ImageLayout.Stretch;
+      inverse.BackgroundImageLayout = ImageLayout.Stretch;
     }
 
     /// <summary>
@@ -168,15 +175,37 @@ namespace WindowsFormsApp2
       SetValue("0");
     }
 
+    private void SetOperation(string operationValue)
+    {
+      operation = operationValue;
+      flag = !flag;
+      numberRepresenter.Text = "0";
+    }
     /// <summary>
     /// this method is called whenever <see cref="plus"/> button is pressed
     /// and sets operation to plus
     /// </summary>
     private void plus_Click(object sender, EventArgs e)
     {
-      operation = "+";
-      flag = !flag;
-      numberRepresenter.Text = "0";
+      SetOperation("+");
+    }
+    
+    /// <summary>
+    /// this method is called whenever <see cref="minus"/> button is pressed
+    /// and sets operation to subtract
+    /// </summary>
+    private void minus_Click(object sender, EventArgs e)
+    {
+      SetOperation("-");
+    }
+    
+    /// <summary>
+    /// this method is called whenever <see cref="divide"/> button is pressed
+    /// and sets operation to division
+    /// </summary>
+    private void divide_Click(object sender, EventArgs e)
+    {
+      SetOperation("/");
     }
 
     /// <summary>
@@ -185,9 +214,7 @@ namespace WindowsFormsApp2
     /// </summary>
     private void product_Click(object sender, EventArgs e)
     {
-      operation = "*";
-      flag = !flag;
-      numberRepresenter.Text = "0";
+      SetOperation("*");
     }
     
     /// <summary>
@@ -249,20 +276,15 @@ namespace WindowsFormsApp2
         case "/":
           DoDivision();
           break;
+        case "-":
+          DoSubtractOperation();
+          break;
       }
     }
     
     /// <summary>
-    /// this method is called whenever <see cref="divide"/> button is pressed
-    /// and sets operation to division
+    /// this method is called whenever <see cref="changeSign"/> button is pressed
     /// </summary>
-    private void divide_Click(object sender, EventArgs e)
-    {
-      operation = "/";
-      flag = !flag;
-      numberRepresenter.Text = "0";
-    }
-
     private void change_sign_Click(object sender, EventArgs e)
     {
       ChangeSign(!flag ? num1 : num2);
@@ -291,6 +313,30 @@ namespace WindowsFormsApp2
             numberRepresenter.Text = num2.ToString();
           }
         }
+       
+    /// <summary>
+    /// this method is called whenever <see cref="e"/> button is pressed
+    /// and sets value of e number
+    /// </summary>
+    private void e_Click(object sender, EventArgs e)
+    {
+      if (!flag)
+      {
+        if (num1 == null)
+          num1 = new StringBuilder();
+        num1.Clear();
+        num1.Append(Math.E);
+        numberRepresenter.Text = num1.ToString();
+      }
+      else
+      {
+        if (num2 == null)
+          num2 = new StringBuilder();
+        num2.Clear();
+        num2.Append(Math.E);
+        numberRepresenter.Text = num2.ToString();
+      }
+    }
     
     /// <summary>
     /// this method is called whenever <see cref="radical"/> button is pressed
@@ -316,9 +362,43 @@ namespace WindowsFormsApp2
     /// </summary>
     private void log_Click(object sender, EventArgs e)
     {
-      DoLogarithm(!flag ? num1 : num2);
+      DoLogarithm(!flag ? num1 : num2, 10);
     }
     
+    /// <summary>
+    /// this method is called whenever <see cref="ln"/> button is pressed
+    /// and uses <see cref="DoLogarithm"/> to calculate logarithm
+    /// </summary>
+    private void ln_Click(object sender, EventArgs e)
+    {
+      DoLogarithm(!flag ? num1 : num2, Math.E);
+    }
+    
+    /// <summary>
+    /// this method is called whenever <see cref="square"/> button is pressed
+    /// and uses <see cref="DoSquare"/> to calculate a number to the power of 2
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void square_Click(object sender, EventArgs e)
+    {
+      DoSquare(!flag ? num1 : num2);
+    }
+    
+    /// <summary>
+    /// this method is called whenever <see cref="square"/> button is pressed
+    /// and uses <see cref="DoSquare"/> to calculate a number to the power of 2
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void inverse_Click(object sender, EventArgs e)
+    {
+      DoInverse(!flag ? num1 : num2);
+    }
+    
+    /// <summary>
+    /// this method combines <see cref="num1"/> with <see cref="num2"/>
+    /// </summary>
     private void DoSumOperation()
     {
       if (num1 != null && num2 != null)
@@ -337,7 +417,32 @@ namespace WindowsFormsApp2
         flag = !flag;
       }
     }
+    
+    /// <summary>
+    /// this method subtracts <see cref="num2"/> from <see cref="num1"/>
+    /// </summary>
+    private void DoSubtractOperation()
+    {
+      if (num1 != null && num2 != null)
+      {
+        result = Convert.ToDouble(num1.ToString()) - Convert.ToDouble(num2.ToString());
+        numberRepresenter.Text = Convert.ToString(result);
+        num1 = null;
+        num2 = null;
+        flag = !flag;
+      }
+      else if (num1 != null && num2 == null)
+      {
+        result = Convert.ToDouble(num1.ToString()) - Convert.ToDouble(num1.ToString());
+        numberRepresenter.Text = Convert.ToString(result);
+        num1 = null;
+        flag = !flag;
+      }
+    }
 
+    /// <summary>
+    /// this method multiplies <see cref="num1"/> by <see cref="num2"/>
+    /// </summary>
     private void DoProductOperation()
     {
       if (num1 != null && num2 != null)
@@ -350,13 +455,28 @@ namespace WindowsFormsApp2
       }
       else if (num1 != null && num2 == null)
       {
-        result = Convert.ToDouble(num1.ToString()) * Convert.ToDouble(num1.ToString());
+        result = Convert.ToDouble(num1.ToString()) + Convert.ToDouble(num1.ToString());
         numberRepresenter.Text = Convert.ToString(result);
         num1 = null;
         flag = !flag;
       }
     }
 
+    /// <summary>
+    /// this method calculates an intended number to the power of 2
+    /// </summary>
+    /// <param name="number"></param>
+    private void DoSquare(StringBuilder number)
+    {
+      double temp = Convert.ToDouble(number.ToString());
+      number.Clear();
+      number.Append(Math.Pow(temp, 2));
+      numberRepresenter.Text = number.ToString();
+    }
+    
+    /// <summary>
+    /// this method divides <see cref="num1"/> over <see cref="num2"/>
+    /// </summary>
     private void DoDivision()
     {
       if (num1 != null && num2 != null && Convert.ToDouble(num2.ToString()) != 0)
@@ -383,6 +503,12 @@ namespace WindowsFormsApp2
       }
     }
 
+    /// <summary>
+    /// this method multiplies a "-1" to the number
+    /// </summary>
+    /// <param name="number">
+    /// a string builder that holds the number that user enters
+    /// </param>
     private void ChangeSign(StringBuilder number)
     {
       double temp = Convert.ToDouble(number.ToString());
@@ -395,7 +521,12 @@ namespace WindowsFormsApp2
       }
     }
 
-
+    /// <summary>
+    /// this method calculates radical of number
+    /// </summary>
+    /// <param name="number">
+    /// a string builder that holds the number that user enters
+    /// </param>
     private void DoRadical(StringBuilder number)
     {
       double temp = Convert.ToDouble(number.ToString());
@@ -437,12 +568,48 @@ namespace WindowsFormsApp2
     /// <param name="number">
     /// a string builder that holds the number that user enters
     /// </param>
-    private void DoLogarithm(StringBuilder number)
+    /// <param name="baseNumber">
+    /// base of the logarithm
+    /// </param>
+    private void DoLogarithm(StringBuilder number, double baseNumber)
     {
       double temp = Convert.ToDouble(number.ToString());
       number.Clear();
-      number.Append(Math.Log(temp, 10));
+      number.Append(Math.Log(temp, baseNumber));
       numberRepresenter.Text = number.ToString();
+    }
+    
+    /// <summary>
+    /// this method calculates inverse of the intended number
+    /// </summary>
+    /// <param name="number"></param>
+    private void DoInverse(StringBuilder number)
+    {
+      double temp = Convert.ToDouble(number.ToString());
+      if (temp != 0)
+      {
+        number.Clear();
+        number.Append(1 / temp);
+        numberRepresenter.Text = number.ToString();
+      }
+      else
+      {
+        numberRepresenter.Text = "error";
+        number = null;
+      }
+    }
+
+
+    private void mouse_Enter(object sender, EventArgs e)
+    {
+      Button button = (Button) sender;
+      button.FlatAppearance.BorderColor = Color.Brown;
+    }
+
+    private void mouseLeave(object sender, EventArgs e)
+    {
+      Button button = (Button) sender;
+      button.FlatAppearance.BorderColor = Color.RoyalBlue;
     }
   }
 }
