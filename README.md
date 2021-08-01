@@ -16,7 +16,7 @@
 3-calculates subtract of two numbers  
 4-Ln  
 5-e number  
-6-color of buttons vhange whenever you hover through them  
+6-color of buttons changes whenever you hover through them  
 _and so many other operations that will be added soon :)_  
 ### latest version preview: ###  
 
